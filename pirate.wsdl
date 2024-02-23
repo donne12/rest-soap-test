@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PirateService"
+    targetNamespace="http://localhost/soap-test/pirateservice.wsdl"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <message name="tresorRequest">
+        <part name="nomPirate" type="xsd:string"/>
+    </message>
+    <message name="tresorResponse">
+        <part name="latitude" type="xsd:float"/>
+        <part name="longitude" type="xsd:float"/>
+    </message>
+
+    <portType name="PirateServicePortType">
+        <operation name="trouverTresor">
+            <input message="tns:tresorRequest"/>
+            <output message="tns:tresorResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="PirateServiceBinding" type="tns:PirateServicePortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="trouverTresor">
+            <soap:operation soapAction="urn:trouverTresor"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:examples:pirateservice" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:examples:pirateservice" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="PirateService">
+        <port name="PirateServicePort" binding="tns:PirateServiceBinding">
+            <soap:address location="http://localhost/soap-test/PirateService.php"/>
+        </port>
+    </service>
+
+</definitions>
